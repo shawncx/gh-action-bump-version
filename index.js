@@ -29,8 +29,9 @@ Toolkit.run(async tools => {
   // }
 
   console.log(`Run await tools.runInWorkspace('git', ['log']);`);
-  await tools.runInWorkspace('git', ['log']);
+  const lastCommit = await tools.runInWorkspace('git', ['log', '-n', '1']);
   console.log(`Done await tools.runInWorkspace('git', ['log']);`);
+  console.log('lastCommit: ' + JSON.stringify(lastCommit));
 
   const messages = event.commits.map(commit => commit.message + '\n' + commit.body)
 
