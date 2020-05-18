@@ -13,25 +13,22 @@ Toolkit.run(async tools => {
   const pkg = tools.getPackageJSON()
   const event = tools.context.payload
 
-  // const commitTimeCheckHour = process.env['INPUT_commit-time-check'];
-  // console.log('commitTimeCheckHours: ' + commitTimeCheckHour);
-  // if (commitTimeCheckHour > 0) {
-  //   const diffInMilliseconds = commitTimeCheckHour * 60 * 60 * 1000;
-  //   const now = new Date().getTime();
-  //   event.commits.find((commit) => {
-  //     if (commit.timestamp) {
-  //       const commitDate = new Date(commit.timestamp).g;
-
-  //     } else {
-  //       console.warn('Cannot find timestamp of commit: ' + commit.id);
-  //     }
-  //   });
-  // }
-
-  console.log(`Run await tools.runInWorkspace('git', ['log']);`);
-  const lastCommit = await tools.runInWorkspace('git', ['log', '-n', '1']);
-  console.log(`Done await tools.runInWorkspace('git', ['log']);`);
-  console.log('lastCommit: ' + JSON.stringify(lastCommit));
+  const commitTimeCheckHour = process.env['INPUT_commit-time-check'];
+  if (commitTimeCheckHour > 0) {
+    console.log(`commitTimeCheckHours is ${commitTimeCheckHour}. Start to check last commit.`);
+    const lastCommitDateStr = await tools.runInWorkspace('git', ['log', '-1', '--format=%cd', '--date=iso-strict']);
+    console.log(`Get lastCommitDateStr: ${lastCommitDateStr}`);
+    const commitDiffInMillisecond = new Date().getTime() - new Date(lastCommitDateStr).getTime();
+    const diffInMillisecond = commitTimeCheckHour * 60 * 60 * 1000;
+    if (commitDiffInMillisecond >= diffInMillisecond) {
+      console.log(`Diff between last commit is bigger than ${commitTimeCheckHour}. Skip version bump!`);
+      return;
+    } else {
+      console.log(`Diff between last commit is smaller than ${commitTimeCheckHour}. Continue version bump!`);
+    }
+  } else {
+    console.log(`commit-time-check is not set! Continue version bump!`);
+  }
 
   const messages = event.commits.map(commit => commit.message + '\n' + commit.body)
 
