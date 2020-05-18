@@ -13,7 +13,6 @@ Toolkit.run(async tools => {
   const pkg = tools.getPackageJSON()
   const event = tools.context.payload
 
-  console.log(`process.env: ${JSON.stringify(process.env)}`);
   const commitTimeCheckHour = process.env['INPUT_COMMIT-TIME-CHECK'] ?? new Number(process.env['INPUT_COMMIT-TIME-CHECK']);
   console.log(`commitTimeCheckHours is ${commitTimeCheckHour}`);
   if (commitTimeCheckHour > 0) {
