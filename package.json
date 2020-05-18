@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "homepage": "https://github.com/shawncx/gh-action-bump-version#readme",
-  "private": true,
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",

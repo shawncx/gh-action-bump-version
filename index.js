@@ -14,6 +14,7 @@ Toolkit.run(async tools => {
   const event = tools.context.payload
 
   const messages = event.commits.map(commit => commit.message + '\n' + commit.body)
+  console.log('commits: ' + JSON.stringify(event.commits));
 
   const commitMessage = 'version bump to'
   const isVersionBump = messages.map(message => message.toLowerCase().includes(commitMessage)).includes(true)
