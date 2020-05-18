@@ -14,11 +14,11 @@ Toolkit.run(async tools => {
   const event = tools.context.payload
 
   console.log(`process.env: ${JSON.stringify(process.env)}`);
-  const commitTimeCheckHour = process.env['INPUT_COMMIT-TIME-CHECK'];
+  const commitTimeCheckHour = process.env['INPUT_COMMIT-TIME-CHECK'] ?? new Number(process.env['INPUT_COMMIT-TIME-CHECK']);
   console.log(`commitTimeCheckHours is ${commitTimeCheckHour}`);
   if (commitTimeCheckHour > 0) {
     console.log(`Start to check last commit.`);
-    const lastCommitDateStr = await tools.runInWorkspace('git', ['log', '-1', '--format=%cd', '--date=iso-strict']);
+    const lastCommitDateStr = (await tools.runInWorkspace('git', ['log', '-1', '--format=%cd', '--date=iso-strict'])).toString();
     console.log(`Get lastCommitDateStr: ${lastCommitDateStr}`);
     const commitDiffInMillisecond = new Date().getTime() - new Date(lastCommitDateStr).getTime();
     const diffInMillisecond = commitTimeCheckHour * 60 * 60 * 1000;
