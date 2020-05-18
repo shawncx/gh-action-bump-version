@@ -17,8 +17,8 @@ Toolkit.run(async tools => {
   console.log(`commitTimeCheckHours is ${commitTimeCheckHour}`);
   if (commitTimeCheckHour > 0) {
     console.log(`Start to check last commit.`);
-    const lastCommitDateStr = (await tools.runInWorkspace('git', ['log', '-1', '--format=%cd', '--date=iso-strict']));
-    console.log('Get lastCommitDateStr: ' + JSON.stringify(lastCommitDateStr));
+    const lastCommitDateStr = (await tools.runInWorkspace('git', ['log', '-1', '--format=%cd', '--date=iso-strict']))['stdout'];
+    console.log(`Get lastCommitDateStr: ${lastCommitDateStr}`);
     const lastCommitDate = new Date(lastCommitDateStr);
     console.log('Get lastCommitDate: ' + lastCommitDate.getTime());
     const commitDiffInMillisecond = new Date().getTime() - lastCommitDate.getTime();
