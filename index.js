@@ -9,6 +9,7 @@ if (process.env.PACKAGEJSON_DIR) {
 
 // Run your GitHub Action!
 Toolkit.run(async tools => {
+  console.log('xichen-gh-action-bump-version started.')
   const pkg = tools.getPackageJSON()
   const event = tools.context.payload
 
