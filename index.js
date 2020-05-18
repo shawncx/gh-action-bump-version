@@ -13,7 +13,7 @@ Toolkit.run(async tools => {
   const pkg = tools.getPackageJSON()
   const event = tools.context.payload
 
-  const commitTimeCheckHour = process.env['INPUT_commit-time-check'];
+  const commitTimeCheckHour = process.env['INPUT_COMMIT-TIME-CHECK'];
   console.log(`commitTimeCheckHours is ${commitTimeCheckHour}`);
   if (commitTimeCheckHour > 0) {
     console.log(`Start to check last commit.`);
