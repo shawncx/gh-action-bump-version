@@ -13,8 +13,26 @@ Toolkit.run(async tools => {
   const pkg = tools.getPackageJSON()
   const event = tools.context.payload
 
+  // const commitTimeCheckHour = process.env['INPUT_commit-time-check'];
+  // console.log('commitTimeCheckHours: ' + commitTimeCheckHour);
+  // if (commitTimeCheckHour > 0) {
+  //   const diffInMilliseconds = commitTimeCheckHour * 60 * 60 * 1000;
+  //   const now = new Date().getTime();
+  //   event.commits.find((commit) => {
+  //     if (commit.timestamp) {
+  //       const commitDate = new Date(commit.timestamp).g;
+
+  //     } else {
+  //       console.warn('Cannot find timestamp of commit: ' + commit.id);
+  //     }
+  //   });
+  // }
+
+  console.log(`Run await tools.runInWorkspace('git', ['log']);`);
+  await tools.runInWorkspace('git', ['log']);
+  console.log(`Done await tools.runInWorkspace('git', ['log']);`);
+
   const messages = event.commits.map(commit => commit.message + '\n' + commit.body)
-  console.log('commits: ' + JSON.stringify(event.commits));
 
   const commitMessage = 'version bump to'
   const isVersionBump = messages.map(message => message.toLowerCase().includes(commitMessage)).includes(true)

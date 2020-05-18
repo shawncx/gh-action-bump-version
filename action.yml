@@ -11,6 +11,10 @@ inputs:
     description: 'Prefix that is used for the git tag'
     default: ''
     required: false
+  commit-time-check:
+    description: 'If the last commit is less than given time(hour), bump up version. -1 means always bump up'
+    default: -1
+    required: false
   PACKAGEJSON_DIR:
     description: 'Custom dir to the package'
     default: ''
